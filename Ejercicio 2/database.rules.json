@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "datos_publicos": {
+      ".read": true,
+      ".write": true
+    },
+    "datos_privados": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+}

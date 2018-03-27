@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Vue</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+  <style type="text/css" media="screen">
+    html, body {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+    h1, h2, h3 {
+      font-weight: 300;
+    }
+    #app {
+      width: 1024px;
+      margin:0 auto;
+    }
+    .div-box{
+      width: 50%;
+      float:left;
+    }
+    #app pre {
+      background: #eee;
+      border-radius: 5px;
+      margin: 10px;
+      padding: 20px;
+      font-weight: 300; 
+    }
+  </style>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="div-box">
+      <img src="https://vuejs.org/images/logo.png" alt="Vue logo">
+      <h1>{{ greeting }}</h1>
+      <p>Compartiendo un poco de como Firebase puede incorporarse de forma progresiva</p>
+    </div>
+    <div class="div-box">
+      <h3>Datos obtenidos de firebase</h3>
+      <pre>{{data}}</pre>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDBSnVdwqjs0oKQpfVv3j5bPoggqM8qqHw",
+      authDomain: "todolist-lab.firebaseapp.com",
+      databaseURL: "https://todolist-lab.firebaseio.com",
+      projectId: "todolist-lab",
+      storageBucket: "todolist-lab.appspot.com",
+      messagingSenderId: "404056089437"
+    };
+    firebase.initializeApp(config);
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        greeting: 'Rocking Vue.js con Firebase!',
+        data: {}
+      },
+      created() {
+        var db = firebase.database()
+        var vm = this
+
+        const onGetData = function(snapshot) {
+          vm.data = snapshot.val()
+        }
+
+        const onErrorGetData = function(e) {
+          vm.data = e
+        }
+
+        db.ref('datos_privados').on('value', onGetData, onErrorGetData)
+
+      }
+    })
+  </script>
+</body>
+</html>
